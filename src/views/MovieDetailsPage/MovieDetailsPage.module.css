@@ -1,0 +1,60 @@
+.button {
+  display: block;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 5px;
+  background: #bbe4bb;
+  margin-bottom: 25px;
+}
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+}
+.buttonText {
+  margin-left: 5px;
+}
+.movieWrapper {
+  display: flex;
+  border-bottom: 2px solid rgb(156, 152, 152);
+}
+.movieImg {
+  width: 350px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+.movieOverWrap {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+.movieOverview {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.movieGenres {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.movieGenresList {
+  padding-left: 20px;
+}
+.dopInfo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  border-bottom: 2px solid rgb(156, 152, 152);
+}
+.userScore {
+  margin-bottom: 16px;
+}
+.dopInfoTitle {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.dopInfoList {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+.routes {
+  /* border-top: 2px solid rgb(156, 152, 152); */
+}

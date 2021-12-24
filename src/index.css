@@ -15,3 +15,8 @@ code {
   composes: link;
   color: darkgreen;
 }
+p,
+ul {
+  margin: 0;
+  padding: 0;
+}
