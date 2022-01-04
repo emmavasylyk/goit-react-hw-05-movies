@@ -1,11 +1,18 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { Route, Routes, Link, useNavigate } from 'react-router-dom';
+import {
+  Route,
+  Routes,
+  Link,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import { ImArrowLeft2 } from 'react-icons/im';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import * as moviesApi from '../../services/movies-api';
 import { useParams } from 'react-router-dom';
 import s from './MovieDetailsPage.module.css';
+import notFoundImg from '../../image/not-image.png';
 
 const Cast = lazy(() =>
   import('../Cast/Cast.js' /* webpackChunkName: "cast" */),
@@ -16,6 +23,7 @@ const Reviews = lazy(() =>
 
 export default function MovieDetailsPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
 
@@ -25,13 +33,22 @@ export default function MovieDetailsPage() {
     moviesApi.fetchDetailsFilm(movieId).then(setMovie);
   }, [movieId]);
 
+  const goBack = () => {
+    if (location.pathname === `/movies/${movieId}`) {
+      navigate(-1);
+    }
+    if (location.pathname === `/movies/${movieId}/cast`) {
+      navigate(-2);
+    }
+    if (location.pathname === `/movies/${movieId}/reviews`) {
+      navigate(-2);
+    }
+    // return navigate('/', { replace: true });
+  };
+
   return (
     <>
-      <button
-        className={s.button}
-        type="button"
-        onClick={() => navigate('/', { replace: true })}
-      >
+      <button className={s.button} type="button" onClick={goBack}>
         <span className={s.buttonWrapper}>
           <ImArrowLeft2 />
           <span className={s.buttonText}>Go back</span>
@@ -42,9 +59,7 @@ export default function MovieDetailsPage() {
           <img
             className={s.movieImg}
             src={
-              movie.poster_path
-                ? `${urlImg}${movie.poster_path}`
-                : `https://lh3.googleusercontent.com/proxy/nK2XmP5pyx67oZPBV_0PUQPjuAWthGAmV0J-_SyCZIHdlEHVajliMo8t8hJtcoI6K38kpnWerHKL_TV5h1PHynujARQHUS8_qMDJWL2rfgk`
+              movie.poster_path ? `${urlImg}${movie.poster_path}` : notFoundImg
             }
             alt={movie.title}
           />

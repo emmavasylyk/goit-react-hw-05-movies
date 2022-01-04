@@ -3,7 +3,6 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 
 async function fetchWithErrorHandling(url = '', config = {}) {
   const response = await fetch(url, config);
-  console.log(response);
   return response.ok
     ? await response.json()
     : Promise.reject(new Error('Not found'));

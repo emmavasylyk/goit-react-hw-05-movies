@@ -5,12 +5,16 @@
   padding-left: 15px;
   list-style: none;
 }
+
 .homePageLink {
   text-decoration: none;
+  color: #1e6e1e;
 }
+
 .movieImg {
   width: 350px;
 }
+
 .homePageItem {
   margin: 15px;
   text-align: center;
@@ -18,12 +22,15 @@
   border: 1px solid rgb(174 174 174 / 66%);
   border-radius: 5px;
   cursor: pointer;
+  background: #bbe4bb;
 }
+
 .homePageItem:hover,
 .homePageItem:focus {
   transform: scale(1.04);
   box-shadow: 0px 3px 18px 2px rgb(174 174 174 / 66%);
 }
+
 .movieTitle {
   width: 300px;
 }

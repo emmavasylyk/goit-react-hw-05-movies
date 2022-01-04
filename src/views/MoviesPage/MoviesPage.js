@@ -1,17 +1,25 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import toastWarm from '../../helpers/toastWarn';
 import 'react-toastify/dist/ReactToastify.css';
 import * as moviesApi from '../../services/movies-api';
 import s from './MoviesPage.module.css';
+import notFoundImg from '../../image/not-image.png';
 
 export default function MoviesPage() {
   const [value, setValue] = useState('');
   const [movies, setMovies] = useState(null);
-  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  const memorySearch =
+    new URLSearchParams(location.search).get('query') ?? '' ?? toastWarm(value);
+
+  const onSubmit = value => {
+    moviesApi.fetchFilm(value).then(setMovies);
+  };
   const handleNameChange = e => setValue(e.currentTarget.value.toLowerCase());
 
   const handleSubmit = e => {
@@ -21,24 +29,23 @@ export default function MoviesPage() {
       return toast.error('Введите свой запрос!');
     }
 
-    if (movies.total_results === 0) {
-      return toastWarm(value);
-    }
-    navigate({ search: `query=${value}` });
+    onSubmit(value);
+    setSearchParams({ query: value });
     setValue('');
   };
 
   const urlImg = 'https://image.tmdb.org/t/p/w500';
 
   useEffect(() => {
-    if (value) {
-      return moviesApi.fetchFilm(value).then(setMovies);
+    if (location.search === '') {
+      return;
     }
-  }, [value]);
+    onSubmit(memorySearch);
+  }, [location.search, memorySearch]);
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form className={s.form} onSubmit={handleSubmit}>
         <input
           className={s.moviesInput}
           type="text"
@@ -59,7 +66,7 @@ export default function MoviesPage() {
                   src={
                     movie.poster_path
                       ? `${urlImg}${movie.poster_path}`
-                      : `https://lh3.googleusercontent.com/proxy/nK2XmP5pyx67oZPBV_0PUQPjuAWthGAmV0J-_SyCZIHdlEHVajliMo8t8hJtcoI6K38kpnWerHKL_TV5h1PHynujARQHUS8_qMDJWL2rfgk`
+                      : notFoundImg
                   }
                   alt={movie.title}
                 />
