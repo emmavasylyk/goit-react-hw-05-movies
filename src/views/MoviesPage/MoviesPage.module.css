@@ -68,9 +68,9 @@
   color: #1e6e1e;
 }
 
-.pagitanion {
+
+.pagination {
   display: flex;
   justify-content: center;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin: 25px 0;
 }

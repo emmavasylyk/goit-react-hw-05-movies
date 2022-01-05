@@ -18,47 +18,78 @@ export default function MoviesPage() {
   const [movies, setMovies] = useState(null);
   const location = useLocation();
   const [page, setPage] = useState(1);
-  const [pageQty, setPageQty] = useState(1);
+  const [pageQty, setPageQty] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const querySearch =
-    new URLSearchParams(location.search).get('query') ?? '' ?? toastWarm(value);
-  console.log('location', location);
-  const pageSearch = new URLSearchParams(location.search).get('page') ?? 1;
+
+  // let querySearch = '';
+  // const querySearch =
+  //   new URLSearchParams(location.search).get('query') ?? '' ?? toastWarm(value);
+  const pageSearch = new URLSearchParams(location.search).get('page') ?? '1';
+  console.log('location.search', location.search);
+  console.log(pageSearch);
 
   const onSubmit = () => {
     console.log(value);
-    moviesApi.fetchFilm(querySearch, pageSearch).then(setMovies, setPage);
+    console.log(page);
+    if (!value || !page) {
+      return;
+    }
+    console.log('888888');
+    moviesApi.fetchFilm(value, page).then(setMovies, setPage);
+
   };
 
   useEffect(() => {
-    if (location.search === '') {
+    console.log('location.search', location.search);
+    if (!location.search) {
+      console.log('5555');
       return;
     }
-    onSubmit(querySearch, pageSearch);
-  }, [querySearch, pageSearch]);
+
+    console.log('22');
+    onSubmit();
+  }, [location.search, value, page]);
+
 
   useEffect(() => {
+    const querySearch = new URLSearchParams(location.search).get('query');
+    if (querySearch) {
+      setValue(querySearch);
+    }
     setPage(pageSearch);
   }, []);
 
   useEffect(() => {
-    if (value === '') {
-      return;
+    // if (value === '') {
+    //   return;
+    // }
+    if (page > 1) {
+      setSearchParams({ query: value, page: page });
     }
-    setSearchParams({ query: value, page: page });
-  }, [value, page, setSearchParams]);
+  }, [page, setSearchParams]);
 
   const handleNameChange = e => setValue(e.currentTarget.value.toLowerCase());
-
   const handleSubmit = e => {
     e.preventDefault();
+    console.log('0', movies);
 
+    console.log('2');
     if (value.trim() === '') {
+      setMovies(null);
+      setSearchParams({});
+      console.log('3');
       return toast.error('Введите свой запрос!');
+    } else {
+      console.log('4');
+      setSearchParams({ query: value });
     }
+    console.log('5');
 
     onSubmit(value, page);
+    if (!movies || (movies && movies.results.length === 0)) {
+      return toastWarm(value);
+    }
   };
 
   const urlImg = 'https://image.tmdb.org/t/p/w500';
@@ -66,20 +97,26 @@ export default function MoviesPage() {
   const handleChange = (e, value) => {
     setPage(value);
   };
+
   return (
     <>
       <form className={s.form} onSubmit={handleSubmit}>
         <input
           className={s.moviesInput}
           type="text"
-          value={value}
+          defaultValue={value}
+          // defaultValue=""
           onChange={handleNameChange}
         />
-        <button className={s.moviesButton} type="submit">
+        <button
+          className={s.moviesButton}
+          type="submit"
+          // onClick={handleNameChange}
+        >
           Search
         </button>
       </form>
-      {movies && (
+      {movies && movies.total_results > 0 && (
         <ul className={s.movieList}>
           {movies.results.map(movie => (
             <li className={s.movieItem} key={movie.id}>
@@ -106,17 +143,19 @@ export default function MoviesPage() {
       {movies && (
         <Stack spacing={2}>
           <Pagination
-            className={s.pagitanion}
+
+            className={s.pagination}
+
             count={movies.total_pages}
             page={Number(page)}
             onChange={handleChange}
-            renderItem={item => (
-              <PaginationItem
-                component={NavLink}
-                to={`?page=${item.page}`}
-                {...item}
-              />
-            )}
+            // renderItem={item => (
+            //   <PaginationItem
+            //     component={NavLink}
+            //     to={`?page=${item.page}`}
+            //     {...item}
+            //   />
+            // )}
           />
         </Stack>
       )}
