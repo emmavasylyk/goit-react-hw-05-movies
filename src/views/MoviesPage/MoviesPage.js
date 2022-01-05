@@ -64,7 +64,6 @@ export default function MoviesPage() {
     } else {
       setSearchParams({ query: value, page: 1 });
     }
-    // setPage(1);
     onSubmit(value, 1);
   };
 
