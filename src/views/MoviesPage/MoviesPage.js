@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import * as moviesApi from '../../services/movies-api';
 import s from './MoviesPage.module.css';
 import notFoundImg from '../../image/not-image.png';
-import { Pagination, PaginationItem, Stack } from '@mui/material';
+import { Pagination, Stack } from '@mui/material';
 
 export default function MoviesPage() {
   const [value, setValue] = useState('');
