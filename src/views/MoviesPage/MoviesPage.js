@@ -18,7 +18,6 @@ export default function MoviesPage() {
   const [movies, setMovies] = useState(null);
   const location = useLocation();
   const [page, setPage] = useState(1);
-  const [pageQty, setPageQty] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const pageSearch = new URLSearchParams(location.search).get('page') ?? '1';
@@ -63,9 +62,9 @@ export default function MoviesPage() {
       setSearchParams({});
       return toast.error('Введите свой запрос!');
     } else {
-      setSearchParams({ query: value });
+      setSearchParams({ query: value, page: 1 });
     }
-    setPage(1);
+    // setPage(1);
     onSubmit(value, 1);
   };
 
