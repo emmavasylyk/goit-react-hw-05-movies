@@ -21,6 +21,7 @@ export default function MoviesPage() {
   const [pageQty, setPageQty] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
 
+
   // let querySearch = '';
   // const querySearch =
   //   new URLSearchParams(location.search).get('query') ?? '' ?? toastWarm(value);
@@ -36,6 +37,7 @@ export default function MoviesPage() {
     }
     console.log('888888');
     moviesApi.fetchFilm(value, page).then(setMovies, setPage);
+
   };
 
   useEffect(() => {
@@ -44,9 +46,11 @@ export default function MoviesPage() {
       console.log('5555');
       return;
     }
+
     console.log('22');
     onSubmit();
   }, [location.search, value, page]);
+
 
   useEffect(() => {
     const querySearch = new URLSearchParams(location.search).get('query');
@@ -93,7 +97,6 @@ export default function MoviesPage() {
   const handleChange = (e, value) => {
     setPage(value);
   };
-  console.log(movies);
 
   return (
     <>
@@ -140,7 +143,9 @@ export default function MoviesPage() {
       {movies && (
         <Stack spacing={2}>
           <Pagination
+
             className={s.pagination}
+
             count={movies.total_pages}
             page={Number(page)}
             onChange={handleChange}
