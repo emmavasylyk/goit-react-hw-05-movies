@@ -5,12 +5,12 @@ import {
   Link,
   useNavigate,
   useLocation,
+  useParams,
 } from 'react-router-dom';
 import { ImArrowLeft2 } from 'react-icons/im';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import * as moviesApi from '../../services/movies-api';
-import { useParams } from 'react-router-dom';
 import s from './MovieDetailsPage.module.css';
 import notFoundImg from '../../image/not-image.png';
 
@@ -34,15 +34,20 @@ export default function MovieDetailsPage() {
   }, [movieId]);
 
   const goBack = () => {
-    if (location.pathname === `/movies/${movieId}`) {
+    if (!location.state) {
+      navigate('/');
+    } else {
       navigate(-1);
     }
-    if (location.pathname === `/movies/${movieId}/cast`) {
-      navigate(-2);
-    }
-    if (location.pathname === `/movies/${movieId}/reviews`) {
-      navigate(-2);
-    }
+    // if (location.pathname === `/movies/${movieId}`) {
+    //   navigate(-1);
+    // }
+    // if (location.pathname === `/movies/${movieId}/cast`) {
+    //   navigate(-2);
+    // }
+    // if (location.pathname === `/movies/${movieId}/reviews`) {
+    //   navigate(-2);
+    // }
     // return navigate('/', { replace: true });
   };
 
@@ -84,10 +89,20 @@ export default function MovieDetailsPage() {
         <p className={s.dopInfoTitle}>Additional information</p>
         <ul className={s.dopInfoList}>
           <li>
-            <Link to="cast">Cast</Link>
+            <Link
+              to={`/movies/${movieId}/cast`}
+              state={{ from: location?.state?.from ?? '/' }}
+            >
+              Cast
+            </Link>
           </li>
           <li>
-            <Link to="reviews">Reviews</Link>
+            <Link
+              to={`/movies/${movieId}/reviews`}
+              state={{ from: location?.state?.from ?? '/' }}
+            >
+              Reviews
+            </Link>
           </li>
         </ul>
       </div>

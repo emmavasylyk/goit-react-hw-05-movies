@@ -19,7 +19,11 @@ export default function HomePage() {
         <ul className={s.homePageList}>
           {movies.results.map(movie => (
             <li className={s.homePageItem} key={movie.id}>
-              <NavLink className={s.homePageLink} to={`movies/${movie.id}`}>
+              <NavLink
+                className={s.homePageLink}
+                to={`movies/${movie.id}`}
+                state={{ from: '/' }}
+              >
                 <img
                   className={s.movieImg}
                   src={`${urlImg}${movie.poster_path}`}
