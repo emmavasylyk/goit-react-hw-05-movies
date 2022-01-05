@@ -23,10 +23,12 @@ export default function MoviesPage() {
 
   const querySearch =
     new URLSearchParams(location.search).get('query') ?? '' ?? toastWarm(value);
+  console.log('location', location);
   const pageSearch = new URLSearchParams(location.search).get('page') ?? 1;
 
-  const onSubmit = (value, pageQty) => {
-    moviesApi.fetchFilm(value, pageQty).then(setMovies, setPage);
+  const onSubmit = () => {
+    console.log(value);
+    moviesApi.fetchFilm(querySearch, pageSearch).then(setMovies, setPage);
   };
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function MoviesPage() {
       return;
     }
     onSubmit(querySearch, pageSearch);
-  }, [location.search, querySearch, pageSearch]);
+  }, [querySearch, pageSearch]);
 
   useEffect(() => {
     setPage(pageSearch);
@@ -64,7 +66,6 @@ export default function MoviesPage() {
   const handleChange = (e, value) => {
     setPage(value);
   };
-
   return (
     <>
       <form className={s.form} onSubmit={handleSubmit}>
@@ -105,6 +106,7 @@ export default function MoviesPage() {
       {movies && (
         <Stack spacing={2}>
           <Pagination
+            className={s.pagitanion}
             count={movies.total_pages}
             page={Number(page)}
             onChange={handleChange}

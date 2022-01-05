@@ -67,3 +67,10 @@
   text-decoration: none;
   color: #1e6e1e;
 }
+
+.pagitanion {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
