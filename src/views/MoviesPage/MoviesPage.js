@@ -21,36 +21,22 @@ export default function MoviesPage() {
   const [pageQty, setPageQty] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
 
-
-  // let querySearch = '';
-  // const querySearch =
-  //   new URLSearchParams(location.search).get('query') ?? '' ?? toastWarm(value);
   const pageSearch = new URLSearchParams(location.search).get('page') ?? '1';
-  console.log('location.search', location.search);
-  console.log(pageSearch);
 
-  const onSubmit = () => {
-    console.log(value);
-    console.log(page);
-    if (!value || !page) {
+  const onSubmit = (searchText, pageNumber) => {
+    if (!searchText || !pageNumber) {
       return;
     }
-    console.log('888888');
-    moviesApi.fetchFilm(value, page).then(setMovies, setPage);
-
+    moviesApi
+      .fetchFilm(searchText, pageNumber)
+      .then(res => {
+        if (res.results && res.results.length === 0) {
+          return toastWarm(searchText);
+        }
+        setMovies(res);
+      })
+      .catch(console.log);
   };
-
-  useEffect(() => {
-    console.log('location.search', location.search);
-    if (!location.search) {
-      console.log('5555');
-      return;
-    }
-
-    console.log('22');
-    onSubmit();
-  }, [location.search, value, page]);
-
 
   useEffect(() => {
     const querySearch = new URLSearchParams(location.search).get('query');
@@ -61,35 +47,26 @@ export default function MoviesPage() {
   }, []);
 
   useEffect(() => {
-    // if (value === '') {
-    //   return;
-    // }
     if (page > 1) {
       setSearchParams({ query: value, page: page });
     }
+    onSubmit(value, page);
   }, [page, setSearchParams]);
 
   const handleNameChange = e => setValue(e.currentTarget.value.toLowerCase());
+
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('0', movies);
 
-    console.log('2');
+    setMovies(null);
     if (value.trim() === '') {
-      setMovies(null);
       setSearchParams({});
-      console.log('3');
       return toast.error('Введите свой запрос!');
     } else {
-      console.log('4');
       setSearchParams({ query: value });
     }
-    console.log('5');
-
-    onSubmit(value, page);
-    if (!movies || (movies && movies.results.length === 0)) {
-      return toastWarm(value);
-    }
+    setPage(1);
+    onSubmit(value, 1);
   };
 
   const urlImg = 'https://image.tmdb.org/t/p/w500';
@@ -105,14 +82,9 @@ export default function MoviesPage() {
           className={s.moviesInput}
           type="text"
           defaultValue={value}
-          // defaultValue=""
           onChange={handleNameChange}
         />
-        <button
-          className={s.moviesButton}
-          type="submit"
-          // onClick={handleNameChange}
-        >
+        <button className={s.moviesButton} type="submit">
           Search
         </button>
       </form>
@@ -143,19 +115,10 @@ export default function MoviesPage() {
       {movies && (
         <Stack spacing={2}>
           <Pagination
-
             className={s.pagination}
-
             count={movies.total_pages}
             page={Number(page)}
             onChange={handleChange}
-            // renderItem={item => (
-            //   <PaginationItem
-            //     component={NavLink}
-            //     to={`?page=${item.page}`}
-            //     {...item}
-            //   />
-            // )}
           />
         </Stack>
       )}

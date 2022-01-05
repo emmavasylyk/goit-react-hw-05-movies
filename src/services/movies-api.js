@@ -14,9 +14,6 @@ export function fetchPopularFilm() {
 }
 
 export function fetchFilm(query, page) {
-  console.log(
-    `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}&page=${page}&language=en-US&include_adult=false`,
-  );
   return fetchWithErrorHandling(
     `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}&page=${page}&language=en-US&include_adult=false`,
   );
