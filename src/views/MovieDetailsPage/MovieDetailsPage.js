@@ -39,16 +39,6 @@ export default function MovieDetailsPage() {
     } else {
       navigate(-1);
     }
-    // if (location.pathname === `/movies/${movieId}`) {
-    //   navigate(-1);
-    // }
-    // if (location.pathname === `/movies/${movieId}/cast`) {
-    //   navigate(-2);
-    // }
-    // if (location.pathname === `/movies/${movieId}/reviews`) {
-    //   navigate(-2);
-    // }
-    // return navigate('/', { replace: true });
   };
 
   return (

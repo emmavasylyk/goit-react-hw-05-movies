@@ -1,6 +1,20 @@
 .castList {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -15px;
   padding-left: 20px;
+  list-style: none;
+}
+.castItem {
+  width: 150px;
+  margin: 15px;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid rgb(174 174 174 / 66%);
+  border-radius: 5px;
+  cursor: pointer;
+  background: #bbe4bb;
 }
 .castImg {
-  width: 90px;
+  width: 150px;
 }

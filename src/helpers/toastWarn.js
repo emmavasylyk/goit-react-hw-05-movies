@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import PropTypes from 'prop-types';
 
 export default function toastWarn(value) {
   return toast.warn(`По вашему запросу ${value} ничего нет!`, {
@@ -13,7 +12,3 @@ export default function toastWarn(value) {
     progress: undefined,
   });
 }
-
-toastWarn.propTypes = {
-  value: PropTypes.string,
-};
