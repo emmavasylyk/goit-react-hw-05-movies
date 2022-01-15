@@ -34,7 +34,12 @@ export default function MovieDetailsPage() {
   }, [movieId]);
 
   const goBack = () => {
-    if (!location.state) {
+    if (
+      location.pathname === `/movies/${movieId}/cast` ||
+      location.pathname === `/movies/${movieId}/reviews`
+    ) {
+      navigate(-2);
+    } else if (!location.state) {
       navigate('/');
     } else {
       navigate(-1);
